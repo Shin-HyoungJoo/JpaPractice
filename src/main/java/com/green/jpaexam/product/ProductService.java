@@ -3,8 +3,11 @@ package com.green.jpaexam.product;
 import com.green.jpaexam.product.model.ProductDto;
 import com.green.jpaexam.product.model.ProductEntity;
 import com.green.jpaexam.product.model.ProductRes;
+import com.green.jpaexam.product.model.ProductUpdDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +21,29 @@ public class ProductService {
                 .price(dto.getPrice())
                 .stock(dto.getStock())
                 .build();
-        ProductEntity result = dao.saveProduct(entity);
-        return ProductRes.builder()
-                .number(result.getNumber())
-                .name(result.getName())
-                .price(result.getPrice())
-                .stock(result.getStock())
+        return dao.saveProduct(entity);
+    }
+
+    public List<ProductRes> getProductAll() {
+        return dao.getProductAll();
+    }
+
+    public ProductRes getProduct(Long number) {
+        return dao.getProduct(number);
+    }
+
+    public ProductRes updProduct(ProductUpdDto dto) {
+        ProductEntity entity = ProductEntity.builder()
+                .name(dto.getName())
+                .number(dto.getNumber())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
                 .build();
+        return dao.updProduct(entity);
+    }
+
+    public void delProduct(Long number) {
+        dao.delProduct(number);
+
     }
 }
